@@ -1,0 +1,49 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <form action="/add_event" method="post">
+        <section style="color: black;" data-bs-theme="dark" class="order-form m-6">
+            <h1>Post an Event</h1>
+
+            <label class="order-form-label">Category</label>
+            <div data-mdb-input-init class="form-outline">
+                <select class="input" name="category" class="form-select" aria-label="Default select example">
+                    <option selected>Event Category</option>
+                    {% for category in categories %}
+                        <option value="{{ category }}">{{ category }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <label class="order-form-label">Title</label>
+            <div data-mdb-input-init class="form-outline">
+                <input name="title" class="input" type="text" id="form2" placeholder="Title" class="form-control order-form-input" />
+            </div>
+
+            <label style="color: black;" class="order-form-label">Description</label>
+            <div data-mdb-input-init class="form-outline">
+                <input name="description" class="input" type="text" placeholder="Description" id="form3" class="form-control order-form-input" />
+            </div>
+
+            <label class="order-form-label">Start Time</label>
+            <div data-mdb-input-init class="form-outline">
+                <input name="start_time" class="input" type="datetime-local" id="form4" class="form-control order-form-input" />
+            </div>
+
+            <label class="order-form-label">End Time</label>
+            <div data-mdb-input-init class="form-outline">
+                <input name="end_time" class="input" type="datetime-local" class="form-control order-form-input" id="datepicker1" data-mdb-toggle="datepicker" />
+            </div>
+
+            <label for="autocomplete" class="order-form-label">Address: Please enter complete address including Country</label>
+            <div data-mdb-input-init class="form-outline">
+                <input name="address" id="autocomplete" class="input" type="text" placeholder="Address" class="form-control order-form-input" />
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+            </div>
+
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary d-block mx-auto btn-submit">Submit</button>
+
+        </section>
+    </form>
+{% endblock %}

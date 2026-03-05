@@ -1,0 +1,21 @@
+
+{% extends "layout.html" %}
+
+{% block main %}
+    <form action="/delete_account" method="post">
+        <section style="color: black;" data-bs-theme="dark" class="order-form m-6">
+            <!--<h1>Proximity Search</h1>-->
+            <label class="order-form-label">Confirm deletion:</label>
+            <div data-mdb-input-init class="form-outline">
+                <input type="radio" id="yes" name="answer" value="yes" required>
+                <label for="yes">Yes</label><br>
+
+                <input type="radio" id="no" name="answer" value="no">
+                <label for="no">No</label><br>
+            </div>
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary d-block mx-auto btn-submit">Submit</button>
+        </section>
+    </form>
+
+
+{% endblock %}

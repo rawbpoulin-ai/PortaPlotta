@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block main %}
+
+    <div id="map" style="height: 500px;"></div>
+
+    <!-- Leaflet CSS/JS -->
+    <link rel="stylesheet" href="https://unpkg.com" />
+    <script src="https://unpkg.com"></script>
+
+    <script>
+        // Initialize map
+        var map = L.map('map').setView([45.4215, -75.6972], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        // Get data from Flask using the 'tojson' filter
+        var locations = {{ locations | tojson }};
+
+        // Loop through coordinates and add markers
+        locations.forEach(function(location) {
+            L.marker([location[1], location[2]])
+                .bindPopup(location[0])
+                .addTo(map);
+        });
+    </script>
+{% endblock %}

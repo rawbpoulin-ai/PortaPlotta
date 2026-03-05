@@ -1,0 +1,18 @@
+{% extends "layout.html" %}
+
+{% block main %}
+    <form action="/search_event" method="post">
+        <section style="color: black;" data-bs-theme="dark" class="order-form m-6">
+            <h1>Proximity Search</h1>
+            <label class="order-form-label">Search radius (based on geolocation)</label>
+            <div data-mdb-input-init class="form-outline">
+                <input name="search_radius" class="input" type="text" id="form2" placeholder="Search radius" class="form-control order-form-input" />
+                <input type="hidden" name="latitude" id="latitude">
+                <input type="hidden" name="longitude" id="longitude">
+            </div>
+            <button type="submit" data-mdb-button-init data-mdb-ripple-init class="btn btn-primary d-block mx-auto btn-submit">Submit</button>
+        </section>
+    </form>
+
+
+{% endblock %}

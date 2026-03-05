@@ -1,0 +1,17 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <form action="/login" method="post">
+        <div data-bs-theme="dark">
+            <input class="container" name="username" autofocus type="text" class="form-control" id="inputGroup-sizing-default" id="floatingInput" placeholder="Username">
+
+            <input class="container" name="password" type="password" class="form-control" id="inputGroup-sizing-default" id="floatingPassword" placeholder="Password">
+
+        </div>
+        <button class="btn btn-primary" type="submit">Login</button>
+    </form>
+{% endblock %}

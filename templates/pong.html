@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+
+{% block style %}
+    <style>
+        body { background: #222; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        canvas { border: 2px solid #fff; box-shadow: 0 0 20px rgba(255,255,255,0.2); }
+    </style>
+
+{% endblock %}
+
+{% block main %}
+    <div id="game-container" style="position: relative;">
+        <canvas id="pong" width="800" height="400"></canvas>
+        <div id="menu" style="position: absolute; top: 0; left: 0; width: 800px; height: 400px;
+            background: rgba(0,0,0,0.8); display: flex; flex-direction: column;
+            justify-content: center; align-items: center; color: white; font-family: 'Courier New';">
+            <h1>JS PONG</h1>
+            <button onclick="startGame()" style="padding: 10px 20px; font-size: 20px;
+                    cursor: pointer; background: #fff; border: none;">START GAME</button>
+            <p>Use your Mouse to move</p>
+        </div>
+    </div>
+    <script>
+        // --- New State Variable ---
+        let gameState = "MENU";
+        const menu = document.getElementById("menu");
+        const canvas = document.getElementById("pong");
+        const ctx = canvas.getContext("2d");
+
+
+        // Game objects
+        const ball = { x: 400, y: 200, dx: 5, dy: 5, radius: 10 };
+        const paddleWidth = 10, paddleHeight = 80;
+        const player = { x: 0, y: 160, score: 0 };
+        const ai = { x: 790, y: 160, score: 0 };
+
+        // Start game
+        function startGame() {
+            gameState = "PLAYING";
+            menu.style.display = "none"; // Hide the menu UI
+            resetBall();
+            player.score = 0;
+            ai.score = 0;
+        }
+
+        // Draw functions
+        function drawRect(x, y, w, h, color) {
+            ctx.fillStyle = color;
+            ctx.fillRect(x, y, w, h);
+        }
+
+        function drawCircle(x, y, r, color) {
+            ctx.fillStyle = color;
+            ctx.beginPath();
+            ctx.arc(x, y, r, 0, Math.PI * 2);
+            ctx.fill();
+        }
+
+        // Input handling
+        canvas.addEventListener("mousemove", (e) => {
+            let rect = canvas.getBoundingClientRect();
+            player.y = e.clientY - rect.top - paddleHeight / 2;
+        });
+
+        function update() {
+            // Ball movement
+            ball.x += ball.dx;
+            ball.y += ball.dy;
+
+            // Wall collision (top/bottom)
+            if (ball.y + ball.radius > canvas.height || ball.y - ball.radius < 0) {
+                ball.dy *= -1;
+            }
+
+            // AI movement (simple tracking)
+            ai.y += (ball.y - (ai.y + paddleHeight / 2)) * 0.1;
+
+            // Paddle collision detection
+            let paddle = (ball.x < canvas.width / 2) ? player : ai;
+            if (detectCollision(ball, paddle)) {
+                ball.dx *= -1.1; // Speed up slightly on hit
+            }
+
+            // Scoring
+            if (ball.x < 0) { ai.score++; resetBall(); }
+            if (ball.x > canvas.width) { player.score++; resetBall(); }
+
+            // Check for a winner (first to 5)
+            if (player.score >= 5 || ai.score >= 5) {
+                endGame();
+            }
+        }
+
+        function detectCollision(b, p) {
+            return b.x < p.x + paddleWidth && b.x + b.radius > p.x &&
+                b.y < p.y + paddleHeight && b.y + b.radius > p.y;
+        }
+
+        function resetBall() {
+            ball.x = canvas.width / 2;
+            ball.y = canvas.height / 2;
+            ball.dx = -ball.dx / Math.abs(ball.dx) * 5; // Reset speed
+        }
+
+        function render() {
+            drawRect(0, 0, canvas.width, canvas.height, "#000"); // Clear screen
+            drawRect(player.x, player.y, paddleWidth, paddleHeight, "#fff");
+            drawRect(ai.x, ai.y, paddleWidth, paddleHeight, "#fff");
+            drawCircle(ball.x, ball.y, ball.radius, "#fff");
+
+            // Scoreboard
+            ctx.font = "32px Courier New";
+            ctx.fillText(player.score, 200, 50);
+            ctx.fillText(ai.score, 600, 50);
+        }
+
+        // --- Modified Game Loop ---
+        function gameLoop() {
+            if (gameState === "PLAYING") {
+                update();
+                render();
+            } else {
+                // Just keep the background black while paused
+                drawRect(0, 0, canvas.width, canvas.height, "#000");
+            }
+            requestAnimationFrame(gameLoop);
+        }
+
+        function endGame() {
+            gameState = "MENU";
+            menu.style.display = "flex";
+            const title = menu.querySelector('h1');
+            title.innerText = player.score >= 5 ? "YOU WIN!" : "GAME OVER";
+        }
+
+        gameLoop();
+
+    </script>
+{% endblock %}

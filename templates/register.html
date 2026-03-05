@@ -1,0 +1,20 @@
+
+{% extends "layout.html" %}
+
+{% block title %}
+    Register
+{% endblock %}
+
+{% block main %}
+    <form action="/register" method="post">
+        <div class="form-floating" data-bs-theme="dark">
+            <input class="container" name="username" type="username" class="form-control" id="inputGroup-sizing-default" id="floatingInput" placeholder="Username">
+
+            <input class="container" name="password" type="password" class="form-control" id="inputGroup-sizing-default" id="floatingPassword" placeholder="Password">
+
+            <input class="container" name="confirmation" type="password" class="form-control" id="inputGroup-sizing-default" id="floatingPassword" placeholder="Confirmation">
+        </div>
+        <button class="btn btn-primary" type="submit">Register</button>
+
+    </form>
+{% endblock %}
