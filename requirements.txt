@@ -3,7 +3,5 @@ Flask
 Flask_Session
 requests
 Folium
-branca.element
-Folium
 gunicorn
 
