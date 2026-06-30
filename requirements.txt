@@ -5,4 +5,4 @@ requests
 Folium
 gunicorn
 branca
-geocodio
+geocodio-python
