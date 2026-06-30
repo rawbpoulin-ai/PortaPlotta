@@ -5,3 +5,4 @@ requests
 Folium
 gunicorn
 branca
+geocodio
