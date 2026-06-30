@@ -5,4 +5,4 @@ requests
 Folium
 gunicorn
 branca
-geocodio==1.4.0
+geocodio
